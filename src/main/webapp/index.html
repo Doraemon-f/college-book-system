@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/css/toast.css">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #F2F2F2;
+            height: 100%;
+            position: relative;
+        }
+
+        form {
+            width: 417px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -208.5px;
+            margin-top: -206.5px;
+        }
+
+        form > div {
+            width: 300px;
+            margin: auto;
+        }
+
+        .btn-custom {
+            display: block;
+            width: 300px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">学生读书管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="welcome.html">主页</a></li>
+                <li><a href="#">书籍推荐</a></li>
+                <li><a href="#">热门活动</a></li>
+                <li><a href="comment.html">发表书评</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="index.html">登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<form action="/login/user" id="loginForm">
+    <img src="/img/logo.jpg">
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            </div>
+            <input type="text" class="form-control" id="username" placeholder="用户名">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+            </div>
+            <input type="text" class="form-control" id="password" placeholder="密码">
+        </div>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            学生用户
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+            活动发起人
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+            管理员
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default btn-custom">登录</button>
+</form>
+<div id="toast">登录失败</div>
+<script src="resources/js/jquery-3.2.1.min.js"></script>
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/toast.js"></script>
+<script>
+    $("#loginForm").submit(function (event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var username = $form.find("#username").val();
+        var password = $form.find('#password').val();
+        var url = $form.attr("action");
+
+        var posting = $.post(url, {
+            name: username,
+            password: password
+        });
+
+        posting.done(function (data) {
+            if (data.status === 0) {
+                window.location.href = 'welcome.html';
+                window.localStorage.setItem('username', username);
+            } else {
+                showToast();
+            }
+        });
+    });
+</script>
+</body>
+</html>

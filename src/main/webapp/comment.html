@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #F2F2F2;
+            height: 100%;
+            position: relative;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+        }
+
+        .content-wrapper {
+            height: calc(100% - 52px);
+            padding: 20px 20px 0 20px;
+            box-sizing: border-box;
+        }
+
+        .left {
+            float: left;
+            width: 60%;
+            height: 100%;
+            padding-right: 10px;
+            border-right: 1px solid #CCCCCC;
+        }
+
+        .right {
+            float: left;
+            padding-left: 10px;
+            width: calc(40% - 20px);
+            height: 100%;
+            position: relative;
+        }
+
+        .toolbar {
+
+        }
+
+        #books-container {
+            overflow-y: scroll;
+            height: calc(100% - 44px);
+        }
+
+        .book {
+            border: 1px solid #CCCCCC;
+            overflow: hidden;
+            padding: 10px;
+            position: relative;
+            border-radius: 4px;
+            background-color: #ffffff;
+        }
+
+        .book:hover {
+            cursor: pointer;
+            background-color: #E8E8E8;
+        }
+
+        .book img {
+            float: left;
+            width: 150px;
+            margin-right: 10px;
+        }
+
+        .book .content {
+            float: left;
+            width: calc(100% - 160px);
+            overflow: hidden;
+        }
+
+        .content .title {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .content .description {
+            width: 100%;
+            height: 120px;
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+        .custom-comment {
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+            color: #000000;
+            width: 120px;
+            font-size: 13px;
+        }
+
+        .custom-comment .icon {
+            float: left;
+            margin-right: 5px;
+            margin-top: 1px;
+        }
+
+        .comment-label {
+            float: left;
+            margin-right: 10px;
+        }
+
+        .comment-comment .number {
+            float: left;
+        }
+
+        .book + .book {
+            margin-top: 20px;
+        }
+
+        .toolbar {
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #comments-container {
+            height: calc(100% - 250px);
+            overflow-y: scroll;
+        }
+
+        .comment {
+            width: 100%;
+            min-height: 100px;
+            border: 1px solid #cccccc;
+            padding: 10px;
+            position: relative;
+            border-radius: 4px;
+            background-color: #ffffff;
+        }
+
+        .comment-header {
+            overflow: hidden;
+        }
+
+        .comment-header .creator {
+            float: left;
+            font-size: 12px;
+        }
+
+        .comment-header .time {
+            float: right;
+            font-size: 12px;
+        }
+
+        .comment-content {
+            padding: 10px 10px 20px 10px;
+        }
+
+        .foot {
+            position: absolute;
+            overflow: hidden;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .delete {
+            font-size: 12px;
+            text-decoration: underline;
+            float: right;
+            margin-right: 10px;
+        }
+
+        .delete:hover {
+            cursor: pointer;
+            color: #0E69A4;
+        }
+
+        .thumb {
+            float: right;
+            font-size: 12px;
+        }
+
+        .thumb:hover {
+            cursor: pointer;
+            color: #0E69A4;
+        }
+
+        .comment + .comment {
+            margin-top: 20px;
+        }
+
+        .my-comment {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+        }
+
+        .custom-btn {
+            margin-top: 10px;
+            float: right;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">学生读书管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="welcome.html">主页</a></li>
+                <li><a href="#">书籍推荐</a></li>
+                <li><a href="#">热门活动</a></li>
+                <li class="active"><a href="#">发表书评</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li class="active"><a href="index.html">登录</a></li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="content-wrapper">
+    <div class="left">
+        <form class="form-inline toolbar">
+            <button class="btn btn-default" type="submit">按热度 <span class="glyphicon glyphicon-circle-arrow-down"/>
+            </button>
+            <button class="btn btn-default" type="submit">按时间 <span class="glyphicon glyphicon-circle-arrow-down"/>
+            </button>
+            <div class="form-group" style="float: right">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </div>
+                    <input type="text" class="form-control" id="username" placeholder="搜索书籍">
+                </div>
+            </div>
+        </form>
+        <div id="books-container"></div>
+    </div>
+    <div class="right">
+        <div class="section-title">评论区</div>
+        <div id="comments-container"></div>
+        <form action="/comment/insert" id="commentForm" class="my-comment">
+            <textarea class="form-control" rows="5" id="my-comment" placeholder="我的评论..."></textarea>
+            <button type="submit" class="btn btn-default custom-btn">提交</button>
+        </form>
+    </div>
+</div>
+<script src="resources/js/jquery-3.2.1.min.js"></script>
+<script src="resources/js/bootstrap.min.js"></script>
+<script>
+    var globalBookId = 0;
+    var getting = $.get('/books/book');
+    getting.done(function (data) {
+        var books = data.data;
+        var html = '';
+        books.forEach(function (book) {
+            html = html + '<div class="book" onclick="getComment(' + book.id + ')">' +
+                '                <img src="img/' + book.cover + '">' +
+                '                <div class="content">' +
+                '                    <div class="title">' + book.title + '</div>' +
+                '                    <div class="description">' + book.description +
+                '                    </div>' +
+                '                </div>' +
+                '                <div class="custom-comment">' +
+                '                    <span class="glyphicon glyphicon-comment icon"></span>' +
+                '                    <div class="comment-label">评论数:</div>' +
+                '                    <div class="number" id="number-' + book.id + '">' + book.comments + '</div>' +
+                '                </div>' +
+                '            </div>';
+        });
+        $('#books-container').html(html);
+    });
+
+    var getComment = function (id) {
+        globalBookId = id;
+        var getting = $.get('/comment/search?bookId=' + id);
+        getting.done(function (data) {
+            var comments = data.data;
+            var html = '';
+            comments.forEach(function (comment) {
+                html = html + '<div class="comment">' +
+                    '                <div class="comment-header">' +
+                    '                    <div class="creator">用户: ' + comment.creator + '</div>' +
+                    '                    <div class="time">' + comment.createTime + '</div>' +
+                    '                </div>' +
+                    '                <div class="comment-content">' + comment.content + '</div>' +
+                    '                <div class="foot">' +
+                    '                    <div class="thumb" onclick="updateThumb(' + comment.id + ')"><span class="glyphicon glyphicon-thumbs-up"></span> ' + comment.thumb + '</div>' +
+                    '                    <div class="delete" onclick="removeComment(' + comment.id + ')">删除</div>' +
+                    '                </div>' +
+                    '            </div>'
+            });
+            $('#comments-container').html(html);
+        })
+    };
+
+    getComment(1);
+
+    $("#commentForm").submit(function (event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var content = $form.find("#my-comment").val();
+        var url = $form.attr("action");
+
+        var posting = $.post(url, {
+            bookId: globalBookId,
+            content: content,
+            creator: window.localStorage.getItem('username') || 'fengshiyu'
+        });
+
+        posting.done(function (data) {
+            if (data.status === 0) {
+                getComment(globalBookId);
+                $form.find('#my-comment').val('');
+                $('#number-' + globalBookId).html(data.data);
+            } else {
+                showToast();
+            }
+        });
+    });
+
+    var removeComment = function (id) {
+        var posting = $.post('/comment/remove', {
+            id: id,
+            bookId: globalBookId
+        });
+
+        posting.done(function (data) {
+            if (data.status === 0) {
+                getComment(globalBookId);
+                $('#number-' + globalBookId).html(data.data);
+            } else {
+                showToast();
+            }
+        });
+    };
+
+    var updateThumb = function (id) {
+        var posting = $.post('/comment/update', {
+            id: id
+        });
+
+        posting.done(function (data) {
+            if (data.status === 0) {
+                getComment(globalBookId);
+            } else {
+                showToast();
+            }
+        });
+    };
+</script>
+</body>
+</html>
